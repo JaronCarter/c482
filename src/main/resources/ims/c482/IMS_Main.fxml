@@ -23,7 +23,7 @@
                   <TableColumn fx:id="column_part_price" prefWidth="177.60003662109375" text="Price / Cost per Unit" />
               </columns>
             </TableView>
-            <Button fx:id="part_add" layoutX="274.0" layoutY="283.0" mnemonicParsing="false" text="Add" />
+            <Button fx:id="part_add" layoutX="274.0" layoutY="283.0" mnemonicParsing="false" text="Add" onAction="#handlePartAddBtnClick" />
             <Button fx:id="part_modify" layoutX="323.0" layoutY="283.0" mnemonicParsing="false" text="Modify" />
             <Button fx:id="part_delete" layoutX="444.0" layoutY="283.0" mnemonicParsing="false" text="Delete" />
          </children>
