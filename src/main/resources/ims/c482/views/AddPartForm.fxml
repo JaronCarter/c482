@@ -28,7 +28,7 @@
             <TextField fx:id="invField" layoutX="94.0" layoutY="139.0" />
             <TextField fx:id="priceField" layoutX="94.0" layoutY="173.0" />
             <TextField fx:id="maxField" layoutX="94.0" layoutY="207.0" />
-            <TextField fx:id="bottomField" layoutX="94.0" layoutY="241.0" />
+            <TextField fx:id="dynamicField" layoutX="94.0" layoutY="241.0" />
             <Label layoutX="285.0" layoutY="211.0" text="Min" />
             <TextField fx:id="minField" layoutX="357.0" layoutY="207.0" />
             <Button fx:id="saveButton" layoutX="388.0" layoutY="292.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" text="Save" />

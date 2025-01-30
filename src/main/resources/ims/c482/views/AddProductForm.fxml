@@ -27,7 +27,7 @@
             <Button fx:id="saveButton" layoutX="809.0" layoutY="569.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" text="Save" />
             <Button fx:id="cancelButton" layoutX="881.0" layoutY="569.0" mnemonicParsing="false" onAction="#handleCancelBtn" text="Cancel" />
             <TextField fx:id="searchField" layoutX="782.0" layoutY="14.0" prefHeight="25.0" prefWidth="155.0" promptText="Search by Part ID or Name" />
-            <TableView fx:id="partsTable" layoutX="472.0" layoutY="43.0" prefHeight="200.0" prefWidth="462.0">
+            <TableView fx:id="allPartsTable" layoutX="472.0" layoutY="43.0" prefHeight="200.0" prefWidth="462.0">
               <columns>
                 <TableColumn fx:id="column_part_id" prefWidth="75.0" text="Part ID" />
                 <TableColumn fx:id="column_part_name" prefWidth="86.400146484375" text="Part Name" />
@@ -37,7 +37,7 @@
             </TableView>
             <Button fx:id="addButton" layoutX="882.0" layoutY="243.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" text="Add" />
             <Button fx:id="removeButton" layoutX="784.0" layoutY="521.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Remove Associated Part" />
-            <TableView fx:id="assoPartsTable" layoutX="472.0" layoutY="321.0" prefHeight="200.0" prefWidth="462.0">
+            <TableView fx:id="associatedPartsTable" layoutX="472.0" layoutY="321.0" prefHeight="200.0" prefWidth="462.0">
                <columns>
                   <TableColumn fx:id="column_asso_part_id" prefWidth="75.0" text="Part ID" />
                   <TableColumn fx:id="column_asso_part_name" prefWidth="86.400146484375" text="Part Name" />
