@@ -1,4 +1,4 @@
-package ims.c482;
+package ims.c482.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Parts_View_Controller {
+public class AddPartController {
 
     @FXML
     public void initialize() {
@@ -18,7 +18,7 @@ public class Parts_View_Controller {
 
 
     public void handleOnCancelBtn(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("IMS_Main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ims/c482/views/MainForm.fxml"));
 
         // Load the FXML file directly into a scene
         Scene newScene = new Scene(loader.load(), 1094, 481);

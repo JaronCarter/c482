@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 
 
-<Pane fx:id="ims_view" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="481.0" prefWidth="1094.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ims.c482.IMS_Main_Controller">
+<Pane fx:id="ims_view" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="481.0" prefWidth="1094.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ims.c482.controllers.MainController">
    <children>
       <Label fx:id="ims_label" layoutX="14.0" layoutY="35.0" style="-fx-font-size: 20; -fx-font-weight: bold;" text="Inventory Management System" />
       <Pane layoutX="14.0" layoutY="100.0" prefHeight="322.0" prefWidth="509.0" style="-fx-border-radius: 10; -fx-border-color: black;">
@@ -23,8 +23,8 @@
                   <TableColumn fx:id="column_part_price" prefWidth="177.60003662109375" text="Price / Cost per Unit" />
               </columns>
             </TableView>
-            <Button fx:id="part_add" layoutX="274.0" layoutY="283.0" mnemonicParsing="false" text="Add" onAction="#handlePartAddBtnClick" />
-            <Button fx:id="part_modify" layoutX="323.0" layoutY="283.0" mnemonicParsing="false" text="Modify" />
+            <Button fx:id="part_add" layoutX="274.0" layoutY="283.0" mnemonicParsing="false" text="Add" onAction="#handlePartAdd" />
+            <Button fx:id="part_modify" layoutX="323.0" layoutY="283.0" mnemonicParsing="false" text="Modify" onAction="#handlePartModify"/>
             <Button fx:id="part_delete" layoutX="444.0" layoutY="283.0" mnemonicParsing="false" text="Delete" />
          </children>
       </Pane>
@@ -40,8 +40,8 @@
                   <TableColumn fx:id="column_product_price" prefWidth="177.60003662109375" text="Price / Cost per Unit" />
                </columns>
             </TableView>
-            <Button fx:id="product_add" layoutX="274.0" layoutY="283.0" mnemonicParsing="false" text="Add" />
-            <Button fx:id="product_modify" layoutX="323.0" layoutY="283.0" mnemonicParsing="false" text="Modify" />
+            <Button fx:id="product_add" layoutX="274.0" layoutY="283.0" mnemonicParsing="false" text="Add" onAction="#handleProductAdd" />
+            <Button fx:id="product_modify" layoutX="323.0" layoutY="283.0" mnemonicParsing="false" text="Modify" onAction="#handleProductModify"/>
             <Button fx:id="product_delete" layoutX="444.0" layoutY="283.0" mnemonicParsing="false" text="Delete" />
          </children>
       </Pane>

@@ -5,4 +5,6 @@ module ims.c482 {
 
     opens ims.c482 to javafx.fxml;
     exports ims.c482;
+    exports ims.c482.controllers;
+    opens ims.c482.controllers to javafx.fxml;
 }
