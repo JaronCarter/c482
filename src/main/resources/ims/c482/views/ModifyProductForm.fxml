@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane prefHeight="711.0" prefWidth="1032.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ims.c482.controllers.AddProductController">
+<Pane prefHeight="711.0" prefWidth="1032.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ims.c482.controllers.ModifyProductController">
    <children>
       <Pane layoutX="42.0" layoutY="51.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="949.0" style="-fx-border-color: black; -fx-border-radius: 10;">
          <children>

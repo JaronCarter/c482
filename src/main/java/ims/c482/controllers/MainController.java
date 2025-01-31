@@ -37,15 +37,12 @@ public class MainController {
     public void initialize() {
         inventory = Inventory.getInstance();
 
-        if (inventory.getAllParts() != null && !inventory.getAllParts().isEmpty()) {
+        partsTable.setItems(inventory.getAllParts());
 
-            partsTable.setItems(inventory.getAllParts());
-
-            columnPartID.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getId()).asObject());
-            columnPartName.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
-            columnPartInv.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getStock()).asObject());
-            columnPartPrice.setCellValueFactory(data -> new SimpleDoubleProperty(data.getValue().getPrice()).asObject());
-        }
+        columnPartID.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getId()).asObject());
+        columnPartName.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
+        columnPartInv.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getStock()).asObject());
+        columnPartPrice.setCellValueFactory(data -> new SimpleDoubleProperty(data.getValue().getPrice()).asObject());
     }
 
     public void handleExitButtonClick() {
