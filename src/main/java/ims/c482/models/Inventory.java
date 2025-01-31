@@ -1,10 +1,22 @@
 package ims.c482.models;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Inventory {
+    private static final Inventory INSTANCE = new Inventory();
+
     private ObservableList<Part> allParts;
     private ObservableList<Product> allProducts;
+
+    private Inventory() {
+        this.allParts = FXCollections.observableArrayList();
+        this.allProducts = FXCollections.observableArrayList();
+    }
+
+    public static Inventory getInstance() {
+        return INSTANCE;
+    }
 
     public void addPart(Part newPart) {
         allParts.add(newPart);

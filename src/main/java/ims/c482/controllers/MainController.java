@@ -1,16 +1,49 @@
 package ims.c482.controllers;
 
+import ims.c482.models.Inventory;
+import ims.c482.models.Part;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class MainController {
+    @FXML
+    private TableView<Part> partsTable;
+    @FXML
+    private TableColumn<Part, Integer> columnPartID;
+    @FXML
+    private TableColumn<Part, String> columnPartName;
+    @FXML
+    private TableColumn<Part, Integer> columnPartInv;
+    @FXML
+    private TableColumn<Part, Double> columnPartPrice;
+
+    private Inventory inventory;
+
+    public void initialize() {
+        inventory = Inventory.getInstance();
+
+        if (inventory.getAllParts() != null && !inventory.getAllParts().isEmpty()) {
+            System.out.println(inventory.getAllParts());
+
+            partsTable.setItems(inventory.getAllParts());
+
+            columnPartID.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getId()).asObject());
+            columnPartName.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
+            columnPartInv.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getStock()).asObject());
+            columnPartPrice.setCellValueFactory(data -> new SimpleDoubleProperty(data.getValue().getPrice()).asObject());
+        }
+    }
 
     public void handleExitButtonClick() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
