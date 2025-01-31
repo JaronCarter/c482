@@ -107,6 +107,9 @@ public class AddProductController {
 
     public void handleSave(ActionEvent event) throws IOException {
         Product product = new Product(Integer.parseInt(idField.getText()),nameField.getText(),Double.parseDouble(priceField.getText()),Integer.parseInt(invField.getText()),Integer.parseInt(maxField.getText()),Integer.parseInt(minField.getText()));
+        for(Part part : associatedParts) {
+            product.addAssociatedPart(part);
+        }
         inventory.addProduct(product);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ims/c482/views/MainForm.fxml"));
