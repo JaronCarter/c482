@@ -44,9 +44,9 @@ public class ModifyPartController {
      * added a passing of the index by grabbing it from the table itself and handing it off to the modify controller allowing for updating parts by correct index.
      */
 
-    public void initData(Part part, int index) {
-        selectedIndex = index;
+    public void initData(Part part) {
         selectedPart = part;
+        selectedIndex = invInstance.getAllParts().indexOf(selectedPart);
 
         if (part instanceof InHouse inHousePart){
             inHouseRadio.setSelected(true);

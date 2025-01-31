@@ -13,6 +13,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -35,6 +37,7 @@ public class AddProductController {
     public TextField maxField;
     public TextField minField;
     public Label errorLabel;
+    public TextField searchField;
     private Inventory inventory = Inventory.getInstance();
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
 
@@ -157,5 +160,38 @@ public class AddProductController {
         }
 
 
+    }
+
+    public void handleSearch(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            if (!searchField.getText().isEmpty()){
+                Part part = inventory.lookupPart(searchField.getText());
+                ObservableList<Part> parts = FXCollections.observableArrayList();
+                parts.add(part);
+
+                if (part != null) {
+                    allPartsTable.setItems(parts);
+                }
+                else {
+                    if (Utils.isInteger(searchField.getText())) {
+                        Part idPart = inventory.lookupPart(Integer.parseInt(searchField.getText()));
+                        ObservableList<Part> idParts = FXCollections.observableArrayList();
+                        idParts.add(idPart);
+                        if (idPart != null) {
+                            allPartsTable.setItems(idParts);
+                        }
+                        else {
+                            allPartsTable.setItems(null);
+                        }
+                    }
+                    else {
+                        allPartsTable.setItems(null);
+                    }
+                }
+            }
+            else {
+                allPartsTable.setItems(inventory.getAllParts());
+            }
+        }
     }
 }

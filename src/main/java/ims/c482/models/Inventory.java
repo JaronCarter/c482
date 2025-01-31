@@ -55,7 +55,12 @@ public class Inventory {
     }
 
     public Product lookupProduct(int productId) {
-        return allProducts.get(productId);
+        for (Product product : allProducts) {
+            if (product.getId() == productId) {
+                return product;
+            }
+        }
+        return null;
     }
 
     public Part lookupPart(String partName) {
@@ -63,7 +68,7 @@ public class Inventory {
     }
 
     public Product lookupProduct(String productName) {
-        return allProducts.stream().filter(p -> p.getName().equals(productName)).findFirst().orElse(null);
+        return allProducts.stream().filter(p -> p.getName().startsWith(productName)).findFirst().orElse(null);
     }
 
     public void updatePart(int index, Part selectedPart) {

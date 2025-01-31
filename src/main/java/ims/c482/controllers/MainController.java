@@ -27,6 +27,7 @@ public class MainController {
     public TableColumn<Product, String> columnProductName;
     public TableColumn<Product, Integer> columnProductInv;
     public TableColumn<Product, Double> columnProductPrice;
+    public TextField productSearch;
     @FXML
     private TableView<Part> partsTable;
     @FXML
@@ -91,7 +92,6 @@ public class MainController {
 
     public void handlePartModify(ActionEvent event) throws IOException {
         Part selectedPart = partsTable.getSelectionModel().getSelectedItem();
-        int selectedIndex = partsTable.getSelectionModel().getSelectedIndex();
 
         if (selectedPart != null) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ims/c482/views/ModifyPartForm.fxml"));
@@ -99,7 +99,7 @@ public class MainController {
             // Load the FXML file directly into a scene
             Scene newScene = new Scene(loader.load(), 599, 402);
             ModifyPartController controller = loader.getController();
-            controller.initData(selectedPart, selectedIndex);
+            controller.initData(selectedPart);
 
             // Get the current stage from the action source (button in this case)
             Stage primaryStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -118,7 +118,6 @@ public class MainController {
 
     public void handleProductModify(ActionEvent event) throws IOException {
         Product selectedProduct = productsTable.getSelectionModel().getSelectedItem();
-        int selectedIndex = productsTable.getSelectionModel().getSelectedIndex();
 
         if (selectedProduct != null) {
             // Open modify form and pass the selected part
@@ -126,7 +125,7 @@ public class MainController {
             // Load the FXML file directly into a scene
             Scene newScene = new Scene(loader.load(), 1032, 711);
             ModifyProductController controller = loader.getController();
-            controller.initData(selectedProduct, selectedIndex);
+            controller.initData(selectedProduct);
             // Get the current stage from the action source (button in this case)
             Stage primaryStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             // Set the new scene on the current stage
@@ -216,6 +215,39 @@ public class MainController {
             alert.setHeaderText(null);
             alert.setContentText("A product must be selected to delete.");
             alert.showAndWait();
+        }
+    }
+
+    public void handleProductSearch(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            if (!productSearch.getText().isEmpty()){
+                Product product = inventory.lookupProduct(productSearch.getText());
+                ObservableList<Product> products = FXCollections.observableArrayList();
+                products.add(product);
+
+                if (product != null) {
+                    productsTable.setItems(products);
+                }
+                else {
+                    if (Utils.isInteger(productSearch.getText())) {
+                        Product idProduct = inventory.lookupProduct(Integer.parseInt(productSearch.getText()));
+                        ObservableList<Product> idProducts = FXCollections.observableArrayList();
+                        idProducts.add(idProduct);
+                        if (idProduct != null) {
+                            productsTable.setItems(idProducts);
+                        }
+                        else {
+                            productsTable.setItems(null);
+                        }
+                    }
+                    else {
+                        productsTable.setItems(null);
+                    }
+                }
+            }
+            else {
+                productsTable.setItems(inventory.getAllProducts());
+            }
         }
     }
 }

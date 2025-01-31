@@ -40,9 +40,9 @@ public class ModifyProductController {
     private Inventory inventory;
     private ObservableList<Part> associatedParts;
 
-    public void initData(Product product, Integer index) {
+    public void initData(Product product) {
         selectedProduct = product;
-        selectedIndex = index;
+        selectedIndex = inventory.getAllProducts().indexOf(product);
         associatedParts = selectedProduct.getAssociatedParts();
         associatedPartsTable.setItems(associatedParts);
 
