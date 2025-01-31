@@ -4,7 +4,7 @@ import ims.c482.models.InHouse;
 import ims.c482.models.Inventory;
 import ims.c482.models.Outsourced;
 import ims.c482.models.Part;
-import ims.c482.utils.ConvertPart;
+import ims.c482.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,6 +28,7 @@ public class ModifyPartController {
     public TextField maxField;
     public TextField dynamicField;
     public TextField minField;
+    public Label errorLabel;
     @FXML
     private RadioButton inHouseRadio;
     @FXML
@@ -35,7 +36,7 @@ public class ModifyPartController {
 
     private int selectedIndex;
     private Part selectedPart;
-
+    private Inventory invInstance;
     /**
      * Any time I attempted to update a part, I ran into this error due to trying to follow the video guidelines on having the part IDs start at 1:
      * java.lang.IndexOutOfBoundsException: Index 1 out of bounds for length 1
@@ -69,7 +70,7 @@ public class ModifyPartController {
 
     @FXML
     public void initialize() {
-        // Initialization code if needed
+        invInstance = Inventory.getInstance();
     }
 
 
@@ -103,46 +104,78 @@ public class ModifyPartController {
      * decided to keep the logic as is and re-write the lookup method in Inventory to for loop through the list and return the first with a matching ID.
      **/
     public void handleSave(ActionEvent event) throws IOException {
-        Inventory invInstance = Inventory.getInstance();
+        StringBuilder errors = new StringBuilder();
 
-        System.out.println(selectedPart.getId());
-
-        if (inHouseRadio.isSelected()){
-            if (selectedPart instanceof Outsourced){
-                selectedPart = ConvertPart.update(selectedPart, dynamicField.getText());
+        if (nameField.getText().isEmpty()) {
+            errors.append("Please enter a valid name\n");
+        }
+        if (invField.getText().isEmpty() || !Utils.isInteger(invField.getText())) {
+            errors.append("Please enter a valid inventory level\n");
+        }
+        if (priceField.getText().isEmpty() || !Utils.isDouble(priceField.getText())) {
+            errors.append("Please enter a valid price\n");
+        }
+        try {
+            int max = Integer.parseInt(maxField.getText());
+            int min = Integer.parseInt(minField.getText());
+            if(max<min){
+                errors.append("The maximum inventory limit must be greater than the minimum inventory limit\n");
             }
-            InHouse modifiedPart = (InHouse) selectedPart;
-            modifiedPart.setName(nameField.getText());
-            modifiedPart.setStock(Integer.parseInt(invField.getText()));
-            modifiedPart.setPrice(Double.parseDouble(priceField.getText()));
-            modifiedPart.setMax(Integer.parseInt(maxField.getText()));
-            modifiedPart.setMin(Integer.parseInt(minField.getText()));
-            modifiedPart.setMachineId(Integer.parseInt(dynamicField.getText()));
-            invInstance.updatePart(selectedIndex, modifiedPart);
+        } catch (NumberFormatException e) {
+            if (!Utils.isInteger(maxField.getText())) {
+                errors.append("Please enter a valid maximum inventory limit\n");
+            }
+            if (!Utils.isInteger(minField.getText())) {
+                errors.append("Please enter a valid minimum inventory limit\n");
+            }
+        }
+        if (dynamicField.getText().isEmpty()) {
+            errors.append(String.format("Please enter a valid %s\n", dynamicLabel.getText()));
+        }
+        else if (inHouseRadio.isSelected() && !Utils.isInteger(dynamicField.getText())) {
+            errors.append("Machine ID must be an integer\n");
+        }
+        if (errors.isEmpty()) {
+            if (inHouseRadio.isSelected()){
+                if (selectedPart instanceof Outsourced){
+                    selectedPart = Utils.convertPart(selectedPart, dynamicField.getText());
+                }
+                InHouse modifiedPart = (InHouse) selectedPart;
+                modifiedPart.setName(nameField.getText());
+                modifiedPart.setStock(Integer.parseInt(invField.getText()));
+                modifiedPart.setPrice(Double.parseDouble(priceField.getText()));
+                modifiedPart.setMax(Integer.parseInt(maxField.getText()));
+                modifiedPart.setMin(Integer.parseInt(minField.getText()));
+                modifiedPart.setMachineId(Integer.parseInt(dynamicField.getText()));
+                invInstance.updatePart(selectedIndex, modifiedPart);
+            }
+            else {
+                if (selectedPart instanceof InHouse){
+                    selectedPart = Utils.convertPart(selectedPart, dynamicField.getText());
+                }
+                Outsourced outsourcedPart = (Outsourced) selectedPart;
+                outsourcedPart.setName(nameField.getText());
+                outsourcedPart.setStock(Integer.parseInt(invField.getText()));
+                outsourcedPart.setPrice(Double.parseDouble(priceField.getText()));
+                outsourcedPart.setMax(Integer.parseInt(maxField.getText()));
+                outsourcedPart.setMin(Integer.parseInt(minField.getText()));
+                outsourcedPart.setCompanyName(dynamicField.getText());
+                invInstance.updatePart(selectedIndex, outsourcedPart);
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ims/c482/views/MainForm.fxml"));
+
+            // Load the FXML file directly into a scene
+            Scene newScene = new Scene(loader.load(), 1094, 481);
+
+            // Get the current stage from the action source (button in this case)
+            Stage primaryStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+
+            // Set the new scene on the current stage
+            primaryStage.setScene(newScene);
         }
         else {
-            if (selectedPart instanceof InHouse){
-                selectedPart = ConvertPart.update(selectedPart, dynamicField.getText());
-            }
-            Outsourced outsourcedPart = (Outsourced) selectedPart;
-            outsourcedPart.setName(nameField.getText());
-            outsourcedPart.setStock(Integer.parseInt(invField.getText()));
-            outsourcedPart.setPrice(Double.parseDouble(priceField.getText()));
-            outsourcedPart.setMax(Integer.parseInt(maxField.getText()));
-            outsourcedPart.setMin(Integer.parseInt(minField.getText()));
-            outsourcedPart.setCompanyName(dynamicField.getText());
-            invInstance.updatePart(selectedIndex, outsourcedPart);
+            errorLabel.setText(errors.toString());
         }
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ims/c482/views/MainForm.fxml"));
-
-        // Load the FXML file directly into a scene
-        Scene newScene = new Scene(loader.load(), 1094, 481);
-
-        // Get the current stage from the action source (button in this case)
-        Stage primaryStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-
-        // Set the new scene on the current stage
-        primaryStage.setScene(newScene);
     }
 }

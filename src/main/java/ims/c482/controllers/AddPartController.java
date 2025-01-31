@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import ims.c482.utils.Utils;
 
 import java.io.IOException;
 
@@ -62,10 +63,10 @@ public class AddPartController {
         if (nameField.getText().isEmpty()) {
             errors.append("Please enter a valid name\n");
         }
-        if (invField.getText().isEmpty() || !isInteger(invField.getText())) {
+        if (invField.getText().isEmpty() || !Utils.isInteger(invField.getText())) {
             errors.append("Please enter a valid inventory level\n");
         }
-        if (priceField.getText().isEmpty() || !isDouble(priceField.getText())) {
+        if (priceField.getText().isEmpty() || !Utils.isDouble(priceField.getText())) {
             errors.append("Please enter a valid price\n");
         }
         try {
@@ -75,17 +76,17 @@ public class AddPartController {
                 errors.append("The maximum inventory limit must be greater than the minimum inventory limit\n");
             }
         } catch (NumberFormatException e) {
-            if (!isInteger(maxField.getText())) {
+            if (!Utils.isInteger(maxField.getText())) {
                 errors.append("Please enter a valid maximum inventory limit\n");
             }
-            if (!isInteger(minField.getText())) {
+            if (!Utils.isInteger(minField.getText())) {
                 errors.append("Please enter a valid minimum inventory limit\n");
             }
         }
         if (dynamicField.getText().isEmpty()) {
             errors.append(String.format("Please enter a valid %s\n", dynamicLabel.getText()));
         }
-        else if (inHouseRadio.isSelected() && !isInteger(dynamicField.getText())) {
+        else if (inHouseRadio.isSelected() && !Utils.isInteger(dynamicField.getText())) {
             errors.append("Machine ID must be an integer\n");
         }
         if (errors.isEmpty()) {
@@ -127,24 +128,6 @@ public class AddPartController {
             dynamicLabel.setText("Machine ID");
         } else {
             dynamicLabel.setText("Company Name");
-        }
-    }
-
-    private boolean isInteger(String input) {
-        try {
-            Integer.parseInt(input);
-            return true;  // Valid integer
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
-    private boolean isDouble(String input) {
-        try {
-            Double.parseDouble(input);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
         }
     }
 }
