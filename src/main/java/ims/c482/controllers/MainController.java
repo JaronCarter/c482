@@ -34,7 +34,6 @@ public class MainController {
         inventory = Inventory.getInstance();
 
         if (inventory.getAllParts() != null && !inventory.getAllParts().isEmpty()) {
-            System.out.println(inventory.getAllParts());
 
             partsTable.setItems(inventory.getAllParts());
 

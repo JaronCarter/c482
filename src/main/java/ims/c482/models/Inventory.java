@@ -20,6 +20,10 @@ public class Inventory {
         return INSTANCE;
     }
 
+    public int getCount() {
+        return counter;
+    }
+
     public void addPart(Part newPart) {
         allParts.add(newPart);
         counter++;
