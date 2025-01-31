@@ -19,7 +19,7 @@ public class AddPartController {
     @FXML
     public RadioButton inHouseRadio;
     @FXML
-    public RadioButton outsourceRadio;
+    public RadioButton outsourcedRadio;
     @FXML
     private TextField idField;
     @FXML
@@ -58,10 +58,10 @@ public class AddPartController {
     public void handleSave(ActionEvent event) throws IOException {
 
         if (inHouseRadio.isSelected()) {
-            Part newPart = new InHouse(invInstance.getAllParts().size() + 1, nameField.getText(), Double.parseDouble(priceField.getText()), Integer.parseInt(invField.getText()), Integer.parseInt(maxField.getText()), Integer.parseInt(minField.getText()), Integer.parseInt(dynamicField.getText()));
+            Part newPart = new InHouse(invInstance.getCounter(), nameField.getText(), Double.parseDouble(priceField.getText()), Integer.parseInt(invField.getText()), Integer.parseInt(maxField.getText()), Integer.parseInt(minField.getText()), Integer.parseInt(dynamicField.getText()));
             invInstance.addPart(newPart);
         } else {
-            Part newPart = new Outsourced(invInstance.getAllParts().size() + 1, nameField.getText(), Double.parseDouble(priceField.getText()), Integer.parseInt(invField.getText()), Integer.parseInt(maxField.getText()), Integer.parseInt(minField.getText()), (dynamicField.getText()));
+            Part newPart = new Outsourced(invInstance.getCounter(), nameField.getText(), Double.parseDouble(priceField.getText()), Integer.parseInt(invField.getText()), Integer.parseInt(maxField.getText()), Integer.parseInt(minField.getText()), (dynamicField.getText()));
             invInstance.addPart(newPart);
         }
 
@@ -78,7 +78,7 @@ public class AddPartController {
 
     }
 
-    public void handleOutsourceRadio() {
+    public void handleOutsourcedRadio() {
         if (inHouseRadio.isSelected()) {
             dynamicLabel.setText("Machine ID");
         } else {

@@ -84,28 +84,45 @@ public class MainController {
     }
 
     public void handlePartModify(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ims/c482/views/ModifyPartForm.fxml"));
+        Part selectedPart = partsTable.getSelectionModel().getSelectedItem();
+        int selectedIndex = partsTable.getSelectionModel().getSelectedIndex();
 
-        // Load the FXML file directly into a scene
-        Scene newScene = new Scene(loader.load(), 599, 402);
+        if (selectedPart != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ims/c482/views/ModifyPartForm.fxml"));
 
-        // Get the current stage from the action source (button in this case)
-        Stage primaryStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            // Load the FXML file directly into a scene
+            Scene newScene = new Scene(loader.load(), 599, 402);
+            ModifyPartController controller = loader.getController();
+            controller.initData(selectedPart, selectedIndex);
 
-        // Set the new scene on the current stage
-        primaryStage.setScene(newScene);
+            // Get the current stage from the action source (button in this case)
+            Stage primaryStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+
+            // Set the new scene on the current stage
+            primaryStage.setScene(newScene);
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("A part must be selected to modify.");
+            ButtonType result = alert.showAndWait().orElse(ButtonType.CANCEL);
+        }
     }
 
     public void handleProductModify(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ims/c482/views/ModifyProductForm.fxml"));
 
-        // Load the FXML file directly into a scene
-        Scene newScene = new Scene(loader.load(), 1032, 711);
+            // Open modify form and pass the selected part
 
-        // Get the current stage from the action source (button in this case)
-        Stage primaryStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ims/c482/views/ModifyProductForm.fxml"));
+            // Load the FXML file directly into a scene
+            Scene newScene = new Scene(loader.load(), 1032, 711);
 
-        // Set the new scene on the current stage
-        primaryStage.setScene(newScene);
+
+            // Get the current stage from the action source (button in this case)
+            Stage primaryStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+
+            // Set the new scene on the current stage
+            primaryStage.setScene(newScene);
     }
 }

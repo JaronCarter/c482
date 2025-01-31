@@ -16,7 +16,7 @@
                <toggleGroup>
                   <ToggleGroup fx:id="radioButtons" />
                </toggleGroup></RadioButton>
-            <RadioButton fx:id="outsourceRadio" layoutX="257.0" layoutY="18.0" mnemonicParsing="false" text="Outsourced" toggleGroup="$radioButtons" onAction="#handleOutsourceRadio"/>
+            <RadioButton fx:id="outsourcedRadio" layoutX="257.0" layoutY="18.0" mnemonicParsing="false" text="Outsourced" toggleGroup="$radioButtons" onAction="#handleOutsourcedRadio"/>
             <Label layoutX="10.0" layoutY="75.0" text="ID" />
             <Label layoutX="10.0" layoutY="109.0" text="Name" />
             <Label layoutX="10.0" layoutY="143.0" text="Inv" />
