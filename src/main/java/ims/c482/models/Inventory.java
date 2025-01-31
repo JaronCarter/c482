@@ -8,29 +8,36 @@ public class Inventory {
 
     private ObservableList<Part> allParts;
     private ObservableList<Product> allProducts;
-    private Integer counter;
+    private Integer partsCounter;
+    private Integer productsCounter;
 
     private Inventory() {
         this.allParts = FXCollections.observableArrayList();
         this.allProducts = FXCollections.observableArrayList();
-        this.counter = 1;
+        this.partsCounter = 1;
+        this.productsCounter = 1;
     }
 
     public static Inventory getInstance() {
         return INSTANCE;
     }
 
-    public int getCount() {
-        return counter;
+    public int getPartsCount() {
+        return partsCounter;
+    }
+
+    public int getProductsCount() {
+        return productsCounter;
     }
 
     public void addPart(Part newPart) {
         allParts.add(newPart);
-        counter++;
+        partsCounter++;
     }
 
     public void addProduct(Product newProduct) {
         allProducts.add(newProduct);
+        productsCounter++;
     }
 
     /**
@@ -81,9 +88,5 @@ public class Inventory {
 
     public ObservableList<Product> getAllProducts() {
         return allProducts;
-    }
-
-    public Integer getCounter() {
-        return counter;
     }
 }

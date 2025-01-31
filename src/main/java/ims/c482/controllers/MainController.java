@@ -2,6 +2,7 @@ package ims.c482.controllers;
 
 import ims.c482.models.Inventory;
 import ims.c482.models.Part;
+import ims.c482.models.Product;
 import ims.c482.utils.Utils;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -21,6 +22,11 @@ import java.io.IOException;
 
 public class MainController {
     public TextField partsSearch;
+    public TableView<Product> productsTable;
+    public TableColumn<Product, Integer> columnProductID;
+    public TableColumn<Product, String> columnProductName;
+    public TableColumn<Product, Integer> columnProductInv;
+    public TableColumn<Product, Double> columnProductPrice;
     @FXML
     private TableView<Part> partsTable;
     @FXML
@@ -43,6 +49,14 @@ public class MainController {
         columnPartName.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
         columnPartInv.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getStock()).asObject());
         columnPartPrice.setCellValueFactory(data -> new SimpleDoubleProperty(data.getValue().getPrice()).asObject());
+
+        productsTable.setItems(inventory.getAllProducts());
+
+        columnProductID.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getId()).asObject());
+        columnProductName.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
+        columnProductInv.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getStock()).asObject());
+        columnProductPrice.setCellValueFactory(data -> new SimpleDoubleProperty(data.getValue().getPrice()).asObject());
+
     }
 
     public void handleExitButtonClick() {
@@ -177,6 +191,28 @@ public class MainController {
             else {
                 partsTable.setItems(inventory.getAllParts());
             }
+        }
+    }
+
+    public void handleProductDelete(ActionEvent event) {
+        Product selectedProduct = productsTable.getSelectionModel().getSelectedItem();
+
+        if (selectedProduct != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to delete this product?");
+            ButtonType result = alert.showAndWait().orElse(ButtonType.CANCEL);
+            if (result == ButtonType.OK) {
+                inventory.deleteProduct(selectedProduct);
+            }
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("A product must be selected to delete.");
+            alert.showAndWait();
         }
     }
 }

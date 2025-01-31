@@ -32,17 +32,17 @@
          <children>
             <Label layoutX="14.0" layoutY="14.0" style="-fx-font-size: 16; -fx-font-weight: bold;" text="Products" />
             <TextField fx:id="products_search" layoutX="292.0" layoutY="14.0" prefHeight="25.0" prefWidth="203.0" promptText="Search by Product ID or Name" />
-            <TableView fx:id="products_tabel" layoutX="52.0" layoutY="49.0" prefHeight="224.0" prefWidth="443.0">
+            <TableView fx:id="productsTable" layoutX="52.0" layoutY="49.0" prefHeight="224.0" prefWidth="443.0">
                <columns>
-                  <TableColumn fx:id="column_product_id" prefWidth="75.0" text="Product ID" />
-                  <TableColumn fx:id="column_product_name" prefWidth="88.0" text="Product Name" />
-                  <TableColumn fx:id="column_product_inv_lvl" prefWidth="102.39990234375" text="Inventory Level" />
-                  <TableColumn fx:id="column_product_price" prefWidth="177.60003662109375" text="Price / Cost per Unit" />
+                  <TableColumn fx:id="columnProductID" prefWidth="75.0" text="Product ID" />
+                  <TableColumn fx:id="columnProductName" prefWidth="88.0" text="Product Name" />
+                  <TableColumn fx:id="columnProductInv" prefWidth="102.39990234375" text="Inventory Level" />
+                  <TableColumn fx:id="columnProductPrice" prefWidth="177.60003662109375" text="Price / Cost per Unit" />
                </columns>
             </TableView>
             <Button fx:id="product_add" layoutX="274.0" layoutY="283.0" mnemonicParsing="false" text="Add" onAction="#handleProductAdd" />
             <Button fx:id="product_modify" layoutX="323.0" layoutY="283.0" mnemonicParsing="false" text="Modify" onAction="#handleProductModify"/>
-            <Button fx:id="product_delete" layoutX="444.0" layoutY="283.0" mnemonicParsing="false" text="Delete" />
+            <Button fx:id="product_delete" layoutX="444.0" layoutY="283.0" mnemonicParsing="false" text="Delete" onAction="#handleProductDelete"/>
          </children>
       </Pane>
       <Button fx:id="exit_btn" layoutX="1045.0" layoutY="442.0" mnemonicParsing="false" text="Exit" onAction="#handleExitButtonClick"/>

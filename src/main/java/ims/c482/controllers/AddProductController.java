@@ -2,6 +2,7 @@ package ims.c482.controllers;
 
 import ims.c482.models.Inventory;
 import ims.c482.models.Part;
+import ims.c482.models.Product;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -10,10 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -29,6 +27,12 @@ public class AddProductController {
     public TableColumn<Part, String> columnAssociatedName;
     public TableColumn<Part, Integer> columnAssociatedInv;
     public TableColumn<Part, Double> columnAssociatedPrice;
+    public TextField idField;
+    public TextField nameField;
+    public TextField invField;
+    public TextField priceField;
+    public TextField maxField;
+    public TextField minField;
     private Inventory inventory = Inventory.getInstance();
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
 
@@ -44,6 +48,8 @@ public class AddProductController {
         columnAssociatedName.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
         columnAssociatedInv.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getStock()).asObject());
         columnAssociatedPrice.setCellValueFactory(data -> new SimpleDoubleProperty(data.getValue().getPrice()).asObject());
+
+        idField.setText(Integer.toString(inventory.getProductsCount()));
     }
 
 
@@ -97,5 +103,21 @@ public class AddProductController {
             alert.setContentText("There are no parts available to remove.");
             alert.showAndWait();
         }
+    }
+
+    public void handleSave(ActionEvent event) throws IOException {
+        Product product = new Product(Integer.parseInt(idField.getText()),nameField.getText(),Double.parseDouble(priceField.getText()),Integer.parseInt(invField.getText()),Integer.parseInt(maxField.getText()),Integer.parseInt(minField.getText()));
+        inventory.addProduct(product);
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ims/c482/views/MainForm.fxml"));
+
+        // Load the FXML file directly into a scene
+        Scene newScene = new Scene(loader.load(), 1094, 481);
+
+        // Get the current stage from the action source (button in this case)
+        Stage primaryStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+
+        // Set the new scene on the current stage
+        primaryStage.setScene(newScene);
     }
 }

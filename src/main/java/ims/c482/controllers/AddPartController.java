@@ -41,7 +41,7 @@ public class AddPartController {
 
     @FXML
     public void initialize() {
-        idField.setText(Integer.toString(invInstance.getCount()));
+        idField.setText(Integer.toString(invInstance.getPartsCount()));
     }
 
     public void handleOnCancelBtn(ActionEvent event) throws IOException {
@@ -91,10 +91,10 @@ public class AddPartController {
         }
         if (errors.isEmpty()) {
             if (inHouseRadio.isSelected()) {
-                Part newPart = new InHouse(invInstance.getCounter(), nameField.getText(), Double.parseDouble(priceField.getText()), Integer.parseInt(invField.getText()), Integer.parseInt(maxField.getText()), Integer.parseInt(minField.getText()), Integer.parseInt(dynamicField.getText()));
+                Part newPart = new InHouse(invInstance.getPartsCount(), nameField.getText(), Double.parseDouble(priceField.getText()), Integer.parseInt(invField.getText()), Integer.parseInt(maxField.getText()), Integer.parseInt(minField.getText()), Integer.parseInt(dynamicField.getText()));
                 invInstance.addPart(newPart);
             } else {
-                Part newPart = new Outsourced(invInstance.getCounter(), nameField.getText(), Double.parseDouble(priceField.getText()), Integer.parseInt(invField.getText()), Integer.parseInt(maxField.getText()), Integer.parseInt(minField.getText()), (dynamicField.getText()));
+                Part newPart = new Outsourced(invInstance.getPartsCount(), nameField.getText(), Double.parseDouble(priceField.getText()), Integer.parseInt(invField.getText()), Integer.parseInt(maxField.getText()), Integer.parseInt(minField.getText()), (dynamicField.getText()));
                 invInstance.addPart(newPart);
             }
 

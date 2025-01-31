@@ -24,7 +24,7 @@
             <TextField fx:id="maxField" layoutX="94.0" layoutY="207.0" prefHeight="25.0" prefWidth="101.0" />
             <Label layoutX="214.0" layoutY="211.0" text="Min" />
             <TextField fx:id="minField" layoutX="256.0" layoutY="207.0" prefHeight="25.0" prefWidth="101.0" />
-            <Button fx:id="saveButton" layoutX="809.0" layoutY="569.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" text="Save" />
+            <Button fx:id="saveButton" layoutX="809.0" layoutY="569.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" text="Save" onAction="#handleSave"/>
             <Button fx:id="cancelButton" layoutX="881.0" layoutY="569.0" mnemonicParsing="false" onAction="#handleCancelBtn" text="Cancel" />
             <TextField fx:id="searchField" layoutX="782.0" layoutY="14.0" prefHeight="25.0" prefWidth="155.0" promptText="Search by Part ID or Name" />
             <TableView fx:id="allPartsTable" layoutX="472.0" layoutY="43.0" prefHeight="200.0" prefWidth="462.0">
