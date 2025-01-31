@@ -125,4 +125,25 @@ public class MainController {
             // Set the new scene on the current stage
             primaryStage.setScene(newScene);
     }
+
+    public void handlePartDelete(ActionEvent event) {
+        Part selectedPart = partsTable.getSelectionModel().getSelectedItem();
+        if (selectedPart != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to delete this part?");
+            ButtonType result = alert.showAndWait().orElse(ButtonType.CANCEL);
+            if (result == ButtonType.OK) {
+                inventory.deletePart(selectedPart);
+            }
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("A part must be selected to delete.");
+            alert.showAndWait();
+        }
+    }
 }

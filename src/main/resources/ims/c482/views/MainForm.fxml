@@ -25,7 +25,7 @@
             </TableView>
             <Button layoutX="274.0" layoutY="283.0" mnemonicParsing="false" text="Add" onAction="#handlePartAdd" />
             <Button layoutX="323.0" layoutY="283.0" mnemonicParsing="false" text="Modify" onAction="#handlePartModify"/>
-            <Button layoutX="444.0" layoutY="283.0" mnemonicParsing="false" text="Delete" />
+            <Button layoutX="444.0" layoutY="283.0" mnemonicParsing="false" text="Delete" onAction="#handlePartDelete"/>
          </children>
       </Pane>
       <Pane layoutX="571.0" layoutY="100.0" prefHeight="322.0" prefWidth="509.0" style="-fx-border-radius: 10; -fx-border-color: black;">
