@@ -52,7 +52,7 @@ public class Inventory {
     }
 
     public Part lookupPart(String partName) {
-        return allParts.stream().filter(p -> p.getName().equals(partName)).findFirst().orElse(null);
+        return allParts.stream().filter(p -> p.getName().startsWith(partName)).findFirst().orElse(null);
     }
 
     public Product lookupProduct(String productName) {

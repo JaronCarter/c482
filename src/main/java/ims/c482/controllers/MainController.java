@@ -2,21 +2,25 @@ package ims.c482.controllers;
 
 import ims.c482.models.Inventory;
 import ims.c482.models.Part;
+import ims.c482.utils.Utils;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class MainController {
+    public TextField partsSearch;
     @FXML
     private TableView<Part> partsTable;
     @FXML
@@ -143,6 +147,39 @@ public class MainController {
             alert.setHeaderText(null);
             alert.setContentText("A part must be selected to delete.");
             alert.showAndWait();
+        }
+    }
+
+    public void handlePartsSearch(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            if (!partsSearch.getText().isEmpty()){
+                Part part = inventory.lookupPart(partsSearch.getText());
+                ObservableList<Part> parts = FXCollections.observableArrayList();
+                parts.add(part);
+
+                if (part != null) {
+                    partsTable.setItems(parts);
+                }
+                else {
+                    if (Utils.isInteger(partsSearch.getText())) {
+                        Part idPart = inventory.lookupPart(Integer.parseInt(partsSearch.getText()));
+                        ObservableList<Part> idParts = FXCollections.observableArrayList();
+                        idParts.add(idPart);
+                        if (idPart != null) {
+                            partsTable.setItems(idParts);
+                        }
+                        else {
+                            partsTable.setItems(null);
+                        }
+                    }
+                    else {
+                        partsTable.setItems(null);
+                    }
+                }
+            }
+            else {
+                partsTable.setItems(inventory.getAllParts());
+            }
         }
     }
 }
