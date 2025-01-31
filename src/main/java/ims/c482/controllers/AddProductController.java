@@ -3,6 +3,7 @@ package ims.c482.controllers;
 import ims.c482.models.Inventory;
 import ims.c482.models.Part;
 import ims.c482.models.Product;
+import ims.c482.utils.Utils;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -33,6 +34,7 @@ public class AddProductController {
     public TextField priceField;
     public TextField maxField;
     public TextField minField;
+    public Label errorLabel;
     private Inventory inventory = Inventory.getInstance();
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
 
@@ -106,21 +108,54 @@ public class AddProductController {
     }
 
     public void handleSave(ActionEvent event) throws IOException {
-        Product product = new Product(Integer.parseInt(idField.getText()),nameField.getText(),Double.parseDouble(priceField.getText()),Integer.parseInt(invField.getText()),Integer.parseInt(maxField.getText()),Integer.parseInt(minField.getText()));
-        for(Part part : associatedParts) {
-            product.addAssociatedPart(part);
+        StringBuilder errors = new StringBuilder();
+
+        if (nameField.getText().isEmpty()) {
+            errors.append("Please enter a valid name\n");
         }
-        inventory.addProduct(product);
+        if (invField.getText().isEmpty() || !Utils.isInteger(invField.getText())) {
+            errors.append("Please enter a valid inventory level\n");
+        }
+        if (priceField.getText().isEmpty() || !Utils.isDouble(priceField.getText())) {
+            errors.append("Please enter a valid price\n");
+        }
+        try {
+            int max = Integer.parseInt(maxField.getText());
+            int min = Integer.parseInt(minField.getText());
+            if(max<min){
+                errors.append("The maximum inventory limit must be greater than the minimum inventory limit\n");
+            }
+        } catch (NumberFormatException e) {
+            if (!Utils.isInteger(maxField.getText())) {
+                errors.append("Please enter a valid maximum inventory limit\n");
+            }
+            if (!Utils.isInteger(minField.getText())) {
+                errors.append("Please enter a valid minimum inventory limit\n");
+            }
+        }
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ims/c482/views/MainForm.fxml"));
+        if (errors.isEmpty()){
+            Product product = new Product(Integer.parseInt(idField.getText()),nameField.getText(),Double.parseDouble(priceField.getText()),Integer.parseInt(invField.getText()),Integer.parseInt(maxField.getText()),Integer.parseInt(minField.getText()));
+            for(Part part : associatedParts) {
+                product.addAssociatedPart(part);
+            }
+            inventory.addProduct(product);
 
-        // Load the FXML file directly into a scene
-        Scene newScene = new Scene(loader.load(), 1094, 481);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ims/c482/views/MainForm.fxml"));
 
-        // Get the current stage from the action source (button in this case)
-        Stage primaryStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            // Load the FXML file directly into a scene
+            Scene newScene = new Scene(loader.load(), 1094, 481);
 
-        // Set the new scene on the current stage
-        primaryStage.setScene(newScene);
+            // Get the current stage from the action source (button in this case)
+            Stage primaryStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+
+            // Set the new scene on the current stage
+            primaryStage.setScene(newScene);
+        }
+        else{
+            errorLabel.setText(errors.toString());
+        }
+
+
     }
 }
