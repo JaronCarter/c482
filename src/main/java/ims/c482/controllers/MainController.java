@@ -60,15 +60,7 @@ public class MainController {
     }
 
     public void handleExitButtonClick() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Exit");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to exit?");
-        ButtonType result = alert.showAndWait().orElse(ButtonType.CANCEL);
-
-        if (result == ButtonType.OK) {
-            System.exit(0);
-        }
+        System.exit(0);
     }
 
     public void handlePartAdd(ActionEvent event) throws IOException {
@@ -120,24 +112,35 @@ public class MainController {
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("A part must be selected to modify.");
-            ButtonType result = alert.showAndWait().orElse(ButtonType.CANCEL);
+            alert.showAndWait();
         }
     }
 
     public void handleProductModify(ActionEvent event) throws IOException {
+        Product selectedProduct = productsTable.getSelectionModel().getSelectedItem();
+        int selectedIndex = productsTable.getSelectionModel().getSelectedIndex();
 
+        if (selectedProduct != null) {
             // Open modify form and pass the selected part
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ims/c482/views/ModifyProductForm.fxml"));
             // Load the FXML file directly into a scene
             Scene newScene = new Scene(loader.load(), 1032, 711);
-
-
+            ModifyProductController controller = loader.getController();
+            controller.initData(selectedProduct, selectedIndex);
             // Get the current stage from the action source (button in this case)
             Stage primaryStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-
             // Set the new scene on the current stage
             primaryStage.setScene(newScene);
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("A product must be selected to modify.");
+            alert.showAndWait();
+        }
+
+
     }
 
     public void handlePartDelete(ActionEvent event) {
