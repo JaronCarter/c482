@@ -18,6 +18,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class AddProductController {
     public TableView<Part> allPartsTable;
@@ -91,7 +92,14 @@ public class AddProductController {
             Part selectedPart = associatedPartsTable.getSelectionModel().getSelectedItem();
 
             if (selectedPart != null) {
-                associatedParts.remove(selectedPart);
+                Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmation.setTitle("Confirmation");
+                confirmation.setHeaderText(null);
+                confirmation.setContentText("Are you sure you want to delete this part?");
+                Optional<ButtonType> result = confirmation.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    associatedParts.remove(selectedPart);
+                }
             }
             else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
