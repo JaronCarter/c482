@@ -31,8 +31,8 @@
             <TextField fx:id="dynamicField" layoutX="104.0" layoutY="241.0" />
             <Label layoutX="285.0" layoutY="211.0" text="Min" />
             <TextField fx:id="minField" layoutX="357.0" layoutY="207.0" />
-            <Button fx:id="saveButton" layoutX="388.0" layoutY="292.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" text="Save" onAction="#handleSave" />
-            <Button fx:id="cancelButton" layoutX="460.0" layoutY="292.0" mnemonicParsing="false" onAction="#handleOnCancelBtn" text="Cancel" />
+            <Button layoutX="388.0" layoutY="292.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" text="Save" onAction="#handleSave" />
+            <Button layoutX="460.0" layoutY="292.0" mnemonicParsing="false" onAction="#handleOnCancelBtn" text="Cancel" />
             <Label fx:id="errorLabel" layoutX="286.0" layoutY="71.0" prefHeight="128.0" prefWidth="220.0" wrapText="true" />
          </children>
       </Pane>

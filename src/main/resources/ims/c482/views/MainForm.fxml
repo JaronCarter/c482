@@ -40,11 +40,11 @@
                   <TableColumn fx:id="columnProductPrice" prefWidth="177.60003662109375" text="Price / Cost per Unit" />
                </columns>
             </TableView>
-            <Button fx:id="product_add" layoutX="274.0" layoutY="283.0" mnemonicParsing="false" text="Add" onAction="#handleProductAdd" />
-            <Button fx:id="product_modify" layoutX="323.0" layoutY="283.0" mnemonicParsing="false" text="Modify" onAction="#handleProductModify"/>
-            <Button fx:id="product_delete" layoutX="444.0" layoutY="283.0" mnemonicParsing="false" text="Delete" onAction="#handleProductDelete"/>
+            <Button layoutX="274.0" layoutY="283.0" mnemonicParsing="false" text="Add" onAction="#handleProductAdd" />
+            <Button layoutX="323.0" layoutY="283.0" mnemonicParsing="false" text="Modify" onAction="#handleProductModify"/>
+            <Button layoutX="444.0" layoutY="283.0" mnemonicParsing="false" text="Delete" onAction="#handleProductDelete"/>
          </children>
       </Pane>
-      <Button fx:id="exit_btn" layoutX="1045.0" layoutY="442.0" mnemonicParsing="false" text="Exit" onAction="#handleExitButtonClick"/>
+      <Button layoutX="1045.0" layoutY="442.0" mnemonicParsing="false" text="Exit" onAction="#handleExitButtonClick"/>
    </children>
 </Pane>
