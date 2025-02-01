@@ -41,9 +41,9 @@ public class Inventory {
     }
 
     /**
-     * If I had to make this code better, the following lookupPart method might be where to start. Right now it loops through all parts, but what if the parts grew in size substantially?
-     * It would be worth changing this approach and having the IDs changed from Integers and use hashed ids. This would allow for usage of a hash table, and if names would be considered
-     * unique it would allow for quick and efficient lookups of parts regardless the size of the dataset.
+     * FUTURE ENHANCEMENT: If I had to make this code better, the following lookupPart method might be where to start. Right now it loops through all parts, but what if the parts grew in
+     * size substantially? It would be worth changing this approach and having the IDs changed from Integers and use hashed ids. This would allow for usage of a hash table, and if names
+     * would be considered unique it would allow for quick and efficient lookups of parts regardless the size of the dataset.
      */
     public Part lookupPart(int partId) {
         for (Part part : allParts) {
@@ -63,12 +63,24 @@ public class Inventory {
         return null;
     }
 
-    public Part lookupPart(String partName) {
-        return allParts.stream().filter(p -> p.getName().startsWith(partName)).findFirst().orElse(null);
+    public ObservableList<Part> lookupPart(String partName) {
+        ObservableList<Part> parts = FXCollections.observableArrayList();
+        for (Part part : allParts) {
+            if (part.getName().contains(partName)) {
+                parts.add(part);
+            }
+        }
+        return parts;
     }
 
-    public Product lookupProduct(String productName) {
-        return allProducts.stream().filter(p -> p.getName().startsWith(productName)).findFirst().orElse(null);
+    public ObservableList<Product> lookupProduct(String productName) {
+        ObservableList<Product> products = FXCollections.observableArrayList();
+        for (Product product : allProducts) {
+            if (product.getName().contains(productName)) {
+                products.add(product);
+            }
+        }
+        return products;
     }
 
     public void updatePart(int index, Part selectedPart) {

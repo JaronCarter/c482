@@ -133,8 +133,12 @@ public class AddProductController {
         try {
             int max = Integer.parseInt(maxField.getText());
             int min = Integer.parseInt(minField.getText());
+            int inv = Integer.parseInt(invField.getText());
             if(max<min){
                 errors.append("The maximum inventory limit must be greater than the minimum inventory limit\n");
+            }
+            else if(max<inv || inv<min){
+                errors.append("The inventory limit cannot exceed nor be less than the maximum and minimum limits respectively\n");
             }
         } catch (NumberFormatException e) {
             if (!Utils.isInteger(maxField.getText())) {
@@ -173,11 +177,9 @@ public class AddProductController {
     public void handleSearch(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             if (!searchField.getText().isEmpty()){
-                Part part = inventory.lookupPart(searchField.getText());
-                ObservableList<Part> parts = FXCollections.observableArrayList();
-                parts.add(part);
+                ObservableList<Part> parts = inventory.lookupPart(searchField.getText());
 
-                if (part != null) {
+                if (!parts.isEmpty()) {
                     allPartsTable.setItems(parts);
                 }
                 else {

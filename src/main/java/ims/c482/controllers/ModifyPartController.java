@@ -118,8 +118,12 @@ public class ModifyPartController {
         try {
             int max = Integer.parseInt(maxField.getText());
             int min = Integer.parseInt(minField.getText());
+            int inv = Integer.parseInt(invField.getText());
             if(max<min){
                 errors.append("The maximum inventory limit must be greater than the minimum inventory limit\n");
+            }
+            else if(max<inv || inv<min){
+                errors.append("The inventory limit cannot exceed nor be less than the maximum and minimum limits respectively\n");
             }
         } catch (NumberFormatException e) {
             if (!Utils.isInteger(maxField.getText())) {

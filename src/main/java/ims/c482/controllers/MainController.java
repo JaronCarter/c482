@@ -166,11 +166,9 @@ public class MainController {
     public void handlePartsSearch(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             if (!partsSearch.getText().isEmpty()){
-                Part part = inventory.lookupPart(partsSearch.getText());
-                ObservableList<Part> parts = FXCollections.observableArrayList();
-                parts.add(part);
+                ObservableList<Part> parts = inventory.lookupPart(partsSearch.getText());
 
-                if (part != null) {
+                if (!parts.isEmpty()) {
                     partsTable.setItems(parts);
                 }
                 else {
@@ -200,13 +198,22 @@ public class MainController {
         Product selectedProduct = productsTable.getSelectionModel().getSelectedItem();
 
         if (selectedProduct != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation");
-            alert.setHeaderText(null);
-            alert.setContentText("Are you sure you want to delete this product?");
-            ButtonType result = alert.showAndWait().orElse(ButtonType.CANCEL);
-            if (result == ButtonType.OK) {
-                inventory.deleteProduct(selectedProduct);
+            if (!selectedProduct.getAssociatedParts().isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("The chosen product for deletion has parts associated and cannot be deleted until they are removed.");
+                alert.showAndWait();
+            }
+            else{
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation");
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure you want to delete this product?");
+                ButtonType result = alert.showAndWait().orElse(ButtonType.CANCEL);
+                if (result == ButtonType.OK) {
+                    inventory.deleteProduct(selectedProduct);
+                }
             }
         }
         else {
@@ -221,11 +228,9 @@ public class MainController {
     public void handleProductSearch(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             if (!productSearch.getText().isEmpty()){
-                Product product = inventory.lookupProduct(productSearch.getText());
-                ObservableList<Product> products = FXCollections.observableArrayList();
-                products.add(product);
+                ObservableList<Product> products = inventory.lookupProduct(productSearch.getText());
 
-                if (product != null) {
+                if (!products.isEmpty()) {
                     productsTable.setItems(products);
                 }
                 else {
