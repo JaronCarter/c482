@@ -14,36 +14,58 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
+/**
+ * The modify part controller is used in tandem with the modify part view so any user may modify an existing part currently in the inventory part list.
+ */
 public class ModifyPartController {
 
+    /** The label that will change between Machine ID and Company Name when the InHouseRadio or OutsourcedRadio buttons are selected. **/
     @FXML
-    public Label dynamicLabel;
-    public TextField idField;
-    public TextField nameField;
-    public TextField invField;
-    public TextField priceField;
-    public TextField maxField;
-    public TextField dynamicField;
-    public TextField minField;
-    public Label errorLabel;
+    private Label dynamicLabel;
+    /** Part ID Field **/
+    @FXML
+    private TextField idField;
+    /** Part Name Field **/
+    @FXML
+    private TextField nameField;
+    /** Part Inventory Level Field **/
+    @FXML
+    private TextField invField;
+    /** Part Price Field **/
+    @FXML
+    private TextField priceField;
+    /** Maximum Inventory Level Allowed Field **/
+    @FXML
+    private TextField maxField;
+    /** Field that changes between Machine ID and Company Name text for adding to its respective part. **/
+    @FXML
+    private TextField dynamicField;
+    /** Minimum Inventory Level Allowed Field **/
+    @FXML
+    private TextField minField;
+    /** Error Label that gets populated with each potential error before saving is allowed. **/
+    @FXML
+    private Label errorLabel;
+    /** In House Radio Button **/
     @FXML
     private RadioButton inHouseRadio;
+    /** Outsourced Radio Button **/
     @FXML
     private RadioButton outsourcedRadio;
-
+    /** The holder variable for the index of the part that is selected on main form and passed to this one for modification. **/
     private int selectedIndex;
+    /** The holder variable for the part passed through to this form for modification. **/
     private Part selectedPart;
+    /** The holder variable for later getting of the Inventory instance for storage of parts and information. **/
     private Inventory invInstance;
-    /**
-     * Any time I attempted to update a part, I ran into this error due to trying to follow the video guidelines on having the part IDs start at 1:
-     * java.lang.IndexOutOfBoundsException: Index 1 out of bounds for length 1
-     * This error is caused by the index of the Inventory list and the IDs being offset by that 1 step. To keep from modifying the Inventory class restraints given by the UML diagram, I
-     * added a passing of the index by grabbing it from the table itself and handing it off to the modify controller allowing for updating parts by correct index.
-     */
 
+    /**
+     * The initData method is set to allow passing of Part data from whatever outside controller may call it. Also sets the text fields correctly based on the passed part information.
+     * @param part Passed through so it can be modified and potentially saved later.
+     * <p><b>RUNTIME ERROR:</b> Any time I attempted to update a part, I ran into this error due to trying to follow the video guidelines on having the part IDs start at 1: "java.lang.IndexOutOfBoundsException: Index 1 out of bounds for length 1". his error is caused by the index of the Inventory list and the IDs being offset by that 1 step. To keep from modifying the Inventory class restraints given by the UML diagram, I added a IndexOf style method for getting the index of a part from the list currently residing in the Inventory instance.</p>
+     */
     public void initData(Part part) {
         selectedPart = part;
         selectedIndex = invInstance.getAllParts().indexOf(selectedPart);
@@ -68,12 +90,19 @@ public class ModifyPartController {
         minField.setText(Integer.toString(part.getMin()));
     }
 
-    @FXML
+    /**
+     * At initialization of the controller, get and set the Inventory instance to a variable for using throughout the controller.
+     */
     public void initialize() {
         invInstance = Inventory.getInstance();
     }
 
 
+    /**
+     * Handler for cancel button to return user back to the Main Form.
+     * @param event Passed through for getting the stage for setting the Main Form view and scene on.
+     * @throws IOException In the case that Main Form's fxml has issues loading etc.
+     */
     public void handleOnCancelBtn(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ims/c482/views/MainForm.fxml"));
 
@@ -87,22 +116,26 @@ public class ModifyPartController {
         primaryStage.setScene(newScene);
     }
 
-    public void handleInHouseRadio(ActionEvent event) {
+    /** When the in house radio button is selected, changed the dynamic label text to Machine ID. **/
+    public void handleInHouseRadio() {
         if (inHouseRadio.isSelected()) {
             dynamicLabel.setText("Machine ID");
         }
     }
 
-    public void handleOutsourcedRadio(ActionEvent event) {
+    /** When the outsourced radio button is selected, changed the dynamic label text to Company Name. **/
+    public void handleOutsourcedRadio() {
         if (outsourcedRadio.isSelected()) {
             dynamicLabel.setText("Company Name");
         }
     }
 
-    /** I had a problem with the below instantiation of the part object where my original lookup function was returning null even when parsed to an int. I realized after this that because I was counting by 1 rather than starting at 0
-     * I could not use a standard get method to lookup from a list because it looks at index. I could change my approach and leave index at 0 then change the form by 1 for show, but I
-     * decided to keep the logic as is and re-write the lookup method in Inventory to for loop through the list and return the first with a matching ID.
-     **/
+    /**
+     * Handler for saving the modified part. If all fields pass conditional checks, the part will be modified taking even into account which radio button is selected.
+     * @param event Passed through to aquire the stage from for setting the Main Form view on the scene and stage if the part modification passes all checks and does save.
+     * @throws IOException If the Main Form view cannot be loaded for any reason.
+     * <p><b>RUNTIME ERROR:</b> I had a problem with the below instantiation of the part object where my original lookup function was returning null even when parsed to an int. I realized after this that because I was counting by 1 rather than starting at 0 I could not use a standard get method to lookup from a list because it looks at index. I could change my approach and leave index at 0 then change the form by 1 for show, but I decided to keep the logic as is and re-write the lookup method in Inventory to for loop through the list and return the first with a matching ID.</p>
+     */
     public void handleSave(ActionEvent event) throws IOException {
         StringBuilder errors = new StringBuilder();
 

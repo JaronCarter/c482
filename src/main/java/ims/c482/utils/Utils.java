@@ -5,7 +5,16 @@ import ims.c482.models.Inventory;
 import ims.c482.models.Outsourced;
 import ims.c482.models.Part;
 
+/**
+ * Utils class for housing utilities to cut down on code duplication.
+ */
 public class Utils {
+    /**
+     * Part converter method for changing an in house part to outsourced part and vice versa.
+     * @param part Takes a part to convert.
+     * @param newInfo Takes the new info to add to either the machine id or company name.
+     * @return Returns the newly converted part.
+     */
     public static Part convertPart(Part part, String newInfo){
         Inventory invInstance = Inventory.getInstance();
         if (part instanceof InHouse) {
@@ -19,6 +28,12 @@ public class Utils {
         }
         return null;
     }
+
+    /**
+     * Checks if input is integer.
+     * @param input Takes string input to verify.
+     * @return Returns boolean.
+     */
     public static boolean isInteger(String input) {
         try {
             Integer.parseInt(input);
@@ -28,6 +43,11 @@ public class Utils {
         }
     }
 
+    /**
+     * Checks if input is double.
+     * @param input Takes string input to verify.
+     * @return Returns boolean.
+     */
     public static boolean isDouble(String input) {
         try {
             Double.parseDouble(input);

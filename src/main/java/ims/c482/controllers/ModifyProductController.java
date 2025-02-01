@@ -10,41 +10,88 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * The modify product controller is used in tandem with the modify product view so any user may modify an existing product currently in the inventory product list.
+ */
 public class ModifyProductController {
 
-    public TextField idField;
-    public TextField nameField;
-    public TextField invField;
-    public TextField priceField;
-    public TextField maxField;
-    public TextField minField;
-    public TableView<Part> associatedPartsTable;
-    public TableColumn<Part, Integer> columnAssociatedID;
-    public TableColumn<Part, String> columnAssociatedName;
-    public TableColumn<Part, Integer> columnAssociatedInv;
-    public TableColumn<Part, Double> columnAssociatedPrice;
-    public TableView<Part> allPartsTable;
-    public TableColumn<Part, Integer> columnPartID;
-    public TableColumn<Part, String> columnPartName;
-    public TableColumn<Part, Integer> columnPartInv;
-    public TableColumn<Part, Double> columnPartPrice;
-    public Label errorLabel;
-    public TextField searchField;
+    /** Product ID field **/
+    @FXML
+    private TextField idField;
+    /** Product name field **/
+    @FXML
+    private TextField nameField;
+    /** Product stock field **/
+    @FXML
+    private TextField invField;
+    /** Product price field **/
+    @FXML
+    private TextField priceField;
+    /** Product max inventory field **/
+    @FXML
+    private TextField maxField;
+    /** Product min inventory field **/
+    @FXML
+    private TextField minField;
+    /** The product's associated parts table **/
+    @FXML
+    private TableView<Part> associatedPartsTable;
+    /** Column for associated part ids **/
+    @FXML
+    private TableColumn<Part, Integer> columnAssociatedID;
+    /** Column for associated part names**/
+    @FXML
+    private TableColumn<Part, String> columnAssociatedName;
+    /** Column for associated part stock **/
+    @FXML
+    private TableColumn<Part, Integer> columnAssociatedInv;
+    /** Column for associated part price **/
+    @FXML
+    private TableColumn<Part, Double> columnAssociatedPrice;
+    /** All parts table **/
+    @FXML
+    private TableView<Part> allPartsTable;
+    /** Column for part ids **/
+    @FXML
+    private TableColumn<Part, Integer> columnPartID;
+    /** Column for part names **/
+    @FXML
+    private TableColumn<Part, String> columnPartName;
+    /** Column for part stock **/
+    @FXML
+    private TableColumn<Part, Integer> columnPartInv;
+    /** Column for part price **/
+    @FXML
+    private TableColumn<Part, Double> columnPartPrice;
+    /** Error label for updating if user validation fails **/
+    @FXML
+    private Label errorLabel;
+    /** All parts search field **/
+    @FXML
+    private TextField searchField;
+    /** Selected product holder variable for updating with the product passed from the main form **/
     private Product selectedProduct;
+    /** Index holder for the selected product for modification **/
     private Integer selectedIndex;
+    /** Inventory holder for the Inventory instance **/
     private Inventory inventory;
+    /** Associated parts holder for filling with the selected product's associated parts list if any **/
     private ObservableList<Part> associatedParts;
 
+    /**
+     * Initializes data and fields for use in modification. This is publicly accessible and is meant for use from the main controller. Gives the ability for the main controller to pass selected products for modification.
+     * @param product Passed through to give the modify product controller the exact product to modify.
+     */
     public void initData(Product product) {
         selectedProduct = product;
         selectedIndex = inventory.getAllProducts().indexOf(product);
@@ -59,6 +106,9 @@ public class ModifyProductController {
         minField.setText(String.valueOf(product.getMin()));
     }
 
+    /**
+     * Modify Product Controller initialization of inventory instance and both part tables.
+     */
     public void initialize() {
         inventory = Inventory.getInstance();
 
@@ -75,6 +125,11 @@ public class ModifyProductController {
         columnAssociatedPrice.setCellValueFactory(data -> new SimpleDoubleProperty(data.getValue().getPrice()).asObject());
     }
 
+    /**
+     * Handler for cancelling modification and returing to Main Form.
+     * @param event Used for pulling the stage for setting the scene and view to show Main Form on window.
+     * @throws IOException If Main Form has issues loading.
+     */
     public void handleCancelBtn(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ims/c482/views/MainForm.fxml"));
 
@@ -88,6 +143,11 @@ public class ModifyProductController {
         primaryStage.setScene(newScene);
     }
 
+    /**
+     * Handler for saving the modified product. Validates all user input before saving.
+     * @param event Passed for grabbing stage to change scene and view back to Main Form on proper save.
+     * @throws IOException If Main Form has issues loading.
+     */
     public void handleSave(ActionEvent event) throws IOException {
         StringBuilder errors = new StringBuilder();
 
@@ -144,7 +204,10 @@ public class ModifyProductController {
         }
     }
 
-    public void handleAdd(ActionEvent event) {
+    /**
+     * Handler for adding parts from the parts table to the product's associated parts table.
+     */
+    public void handleAdd() {
         Part selectedPart = allPartsTable.getSelectionModel().getSelectedItem();
 
         if (selectedPart != null) {
@@ -160,7 +223,10 @@ public class ModifyProductController {
         }
     }
 
-    public void handleRemove(ActionEvent event) {
+    /**
+     * Handler for removing parts from the product's association. Verifies if user does want to remove first.
+     */
+    public void handleRemove() {
         if (associatedParts != null && !associatedParts.isEmpty()) {
             Part selectedPart = associatedPartsTable.getSelectionModel().getSelectedItem();
 
@@ -191,6 +257,10 @@ public class ModifyProductController {
         }
     }
 
+    /**
+     * Handler for searching all parts. First checks any characters against any products containing said characters in their name, then checks by ID before setting the table to what it finds (if any).
+     * @param event For checking if the enter key is what caused the event.
+     */
     public void handleSearch(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             if (!searchField.getText().isEmpty()){

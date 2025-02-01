@@ -10,38 +10,82 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * The add product controller is used in tandem to the add product form. Allows for adding of products to the inventory products list.
+ */
 public class AddProductController {
-    public TableView<Part> allPartsTable;
-    public TableColumn<Part, Integer> columnPartID;
-    public TableColumn<Part, String> columnPartName;
-    public TableColumn<Part, Integer> columnPartInv;
-    public TableColumn<Part, Double> columnPartPrice;
-    public TableView<Part> associatedPartsTable;
-    public TableColumn<Part, Integer> columnAssociatedID;
-    public TableColumn<Part, String> columnAssociatedName;
-    public TableColumn<Part, Integer> columnAssociatedInv;
-    public TableColumn<Part, Double> columnAssociatedPrice;
-    public TextField idField;
-    public TextField nameField;
-    public TextField invField;
-    public TextField priceField;
-    public TextField maxField;
-    public TextField minField;
-    public Label errorLabel;
-    public TextField searchField;
+    /** The table to show all parts available for adding to a product. **/
+    @FXML
+    private TableView<Part> allPartsTable;
+    /** The column for part ids **/
+    @FXML
+    private TableColumn<Part, Integer> columnPartID;
+    /** Column for Part Names **/
+    @FXML
+    private TableColumn<Part, String> columnPartName;
+    /** Column for Part Inventory Stock **/
+    @FXML
+    private TableColumn<Part, Integer> columnPartInv;
+    /** Column for Part Price **/
+    @FXML
+    private TableColumn<Part, Double> columnPartPrice;
+    /** Table for the parts associated with the product being created. **/
+    @FXML
+    private TableView<Part> associatedPartsTable;
+    /** Column for associated part ids **/
+    @FXML
+    private TableColumn<Part, Integer> columnAssociatedID;
+    /** Column for associated part names **/
+    @FXML
+    private TableColumn<Part, String> columnAssociatedName;
+    /** Column for associated part stock **/
+    @FXML
+    private TableColumn<Part, Integer> columnAssociatedInv;
+    /** Column for associated part price **/
+    @FXML
+    private TableColumn<Part, Double> columnAssociatedPrice;
+    /** Product ID field **/
+    @FXML
+    private TextField idField;
+    /** Product name field **/
+    @FXML
+    private TextField nameField;
+    /** Product Inventory Stock Field **/
+    @FXML
+    private TextField invField;
+    /** Product Price Field **/
+    @FXML
+    private TextField priceField;
+    /** Product Max Inventory Field **/
+    @FXML
+    private TextField maxField;
+    /** Product Min Inventory Field **/
+    @FXML
+    private TextField minField;
+    /** Error Label for adding error information to if any **/
+    @FXML
+    private Label errorLabel;
+    /** Search Field for filtering all available parts **/
+    @FXML
+    private TextField searchField;
+    /** The Inventory Instance for managing all parts and product stock. **/
     private Inventory inventory = Inventory.getInstance();
+    /** A temporary associated parts list holder for the product to be. **/
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
 
+    /**
+     * Initializes the controller for adding products. Sets the all parts table with available parts and adds the future ID to the ID field.
+     */
     public void initialize() {
         allPartsTable.setItems(inventory.getAllParts());
         columnPartID.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getId()).asObject());
@@ -59,6 +103,11 @@ public class AddProductController {
     }
 
 
+    /**
+     * On cancel button press, takes user back to Main Form.
+     * @param event Is passed in order to pull the stage for setting the scene and view for Main Form.
+     * @throws IOException If the Main Form view fails to load for any reason.
+     */
     public void handleCancelBtn(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ims/c482/views/MainForm.fxml"));
 
@@ -72,7 +121,10 @@ public class AddProductController {
         primaryStage.setScene(newScene);
     }
 
-    public void handleAdd(ActionEvent event) {
+    /**
+     * Handler for adding parts from the parts table to the associated parts table for the product. Verifies a part is selected before doing so.
+     */
+    public void handleAdd() {
         Part selectedPart = allPartsTable.getSelectionModel().getSelectedItem();
 
         if (selectedPart != null) {
@@ -87,7 +139,10 @@ public class AddProductController {
         }
     }
 
-    public void handleRemove(ActionEvent event) {
+    /**
+     * Handler for removing a part from the associated parts list. Verifies a part is selected first and also confirms whether the user means to remove the part selected.
+     */
+    public void handleRemove() {
         if (associatedParts != null && !associatedParts.isEmpty()) {
             Part selectedPart = associatedPartsTable.getSelectionModel().getSelectedItem();
 
@@ -118,6 +173,11 @@ public class AddProductController {
         }
     }
 
+    /**
+     * Handler for saving the new product to the Inventory products list. Validation is done on all fields proceeding the save, otherwise the error label is updated with what the user needs to fix to proceed. Since the class method details specified by the UML diagram insist upon a single part insertion at a time, instead of appending a list of parts I have a loop that adds the parts one at a time to the product before saving.
+     * @param event Is passed for grabbing the stage to set a scene and Main Form view for return on proper save.
+     * @throws IOException If Main Form view fails to load for any reason.
+     */
     public void handleSave(ActionEvent event) throws IOException {
         StringBuilder errors = new StringBuilder();
 
@@ -174,6 +234,10 @@ public class AddProductController {
 
     }
 
+    /**
+     * Handler for searching for parts containing any particular set of characters OR by ID.
+     * @param event Passed through so we can do a conditional check on the event to see if the Enter key was pressed rather than by any keystroke.
+     */
     public void handleSearch(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             if (!searchField.getText().isEmpty()){

@@ -17,30 +17,54 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
+/**
+ * The MainController is used for supplying logic to the MainForm view.
+ */
 public class MainController {
-    public TextField partsSearch;
-    public TableView<Product> productsTable;
-    public TableColumn<Product, Integer> columnProductID;
-    public TableColumn<Product, String> columnProductName;
-    public TableColumn<Product, Integer> columnProductInv;
-    public TableColumn<Product, Double> columnProductPrice;
-    public TextField productSearch;
+    /** Part search text field **/
+    @FXML
+    private TextField partsSearch;
+    /** Products table **/
+    @FXML
+    private TableView<Product> productsTable;
+    /** Column for product ids **/
+    @FXML
+    private TableColumn<Product, Integer> columnProductID;
+    /** Column for product names **/
+    @FXML
+    private TableColumn<Product, String> columnProductName;
+    /** Column for product stock **/
+    @FXML
+    private TableColumn<Product, Integer> columnProductInv;
+    /** Column for product price **/
+    @FXML
+    private TableColumn<Product, Double> columnProductPrice;
+    /** Product search text field **/
+    @FXML
+    private TextField productSearch;
+    /** Parts table **/
     @FXML
     private TableView<Part> partsTable;
+    /** Column for part ids **/
     @FXML
     private TableColumn<Part, Integer> columnPartID;
+    /** Column for part names **/
     @FXML
     private TableColumn<Part, String> columnPartName;
+    /** Column for part stock **/
     @FXML
     private TableColumn<Part, Integer> columnPartInv;
+    /** Column for part price **/
     @FXML
     private TableColumn<Part, Double> columnPartPrice;
-
+    /** Inventory variable holder for the Inventory instance **/
     private Inventory inventory;
 
+    /**
+     * Main controller initialization that sets the product or part tables up with proper data for viewing. Gets inventory instance and sets to the inventory variable.
+     */
     public void initialize() {
         inventory = Inventory.getInstance();
 
@@ -60,10 +84,18 @@ public class MainController {
 
     }
 
+    /**
+     * Handler for exiting the application cleanly.
+     */
     public void handleExitButtonClick() {
         System.exit(0);
     }
 
+    /**
+     * Handler for adding a part.
+     * @param event Passed for grabbing the stage in order to set the scene and view for the Add Part Form to show on window.
+     * @throws IOException If the Add Part Form has any issue loading.
+     */
     public void handlePartAdd(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ims/c482/views/AddPartForm.fxml"));
 
@@ -77,6 +109,11 @@ public class MainController {
         primaryStage.setScene(newScene);
     }
 
+    /**
+     * Handler for adding product.
+     * @param event Passed for grabbing the stage from in order to set the view and scene for Add Product Form to show on window.
+     * @throws IOException If Add Product Form view has an issue loading.
+     */
     public void handleProductAdd(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ims/c482/views/AddProductForm.fxml"));
 
@@ -90,6 +127,11 @@ public class MainController {
         primaryStage.setScene(newScene);
     }
 
+    /**
+     * Handler for opening a part for modification. Passes the selected and highlighted part from the parts table to the Modify Part controller for modification.
+     * @param event Passed so the stage can be acquired for setting the view and scene for Modify Part Form.
+     * @throws IOException If Modify Part Form has issue loading.
+     */
     public void handlePartModify(ActionEvent event) throws IOException {
         Part selectedPart = partsTable.getSelectionModel().getSelectedItem();
 
@@ -116,6 +158,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Handler for the Product Modification window. Passes the highlighted and selected product from the product table to the Modify Product controller.
+     * @param event For use in grabbing the stage so a new view and scene can be set.
+     * @throws IOException If there is issue loading the Modify Product Form.
+     */
     public void handleProductModify(ActionEvent event) throws IOException {
         Product selectedProduct = productsTable.getSelectionModel().getSelectedItem();
 
@@ -142,7 +189,10 @@ public class MainController {
 
     }
 
-    public void handlePartDelete(ActionEvent event) {
+    /**
+     * Handler for deleting a part from the parts table. Makes sure a part is selected and that the user confirms they want to delete.
+     */
+    public void handlePartDelete() {
         Part selectedPart = partsTable.getSelectionModel().getSelectedItem();
         if (selectedPart != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -163,6 +213,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Handler for parts search. Checks for any part names in the inventory parts list first. If none are found, and the entry is an integer, checks by ID. Sets the table to whatever, if any, it finds.
+     * @param event Passed to check if the enter key is pressed during the key event.
+     */
     public void handlePartsSearch(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             if (!partsSearch.getText().isEmpty()){
@@ -194,7 +248,10 @@ public class MainController {
         }
     }
 
-    public void handleProductDelete(ActionEvent event) {
+    /**
+     * Handler for Product Deletion. Checks if a product is selected and confirms if the user wants to delete the product. Also checks to see if any parts are currently associated with the product before allowing for deletion.
+     */
+    public void handleProductDelete() {
         Product selectedProduct = productsTable.getSelectionModel().getSelectedItem();
 
         if (selectedProduct != null) {
@@ -225,6 +282,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Handler for Product Search. Checks for any characters in all products list in Inventory before checking by ID next. Updates the table if any are found.
+     * @param event Passed to check if the enter key was pressed during the key event that triggers this handler.
+     */
     public void handleProductSearch(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             if (!productSearch.getText().isEmpty()){
