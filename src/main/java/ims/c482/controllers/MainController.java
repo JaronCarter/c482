@@ -234,11 +234,21 @@ public class MainController {
                             partsTable.setItems(idParts);
                         }
                         else {
-                            partsTable.setItems(null);
+                            partsTable.setItems(inventory.getAllParts());
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error");
+                            alert.setHeaderText(null);
+                            alert.setContentText("A part was not found by that id or name.");
+                            alert.showAndWait();
                         }
                     }
                     else {
-                        partsTable.setItems(null);
+                        partsTable.setItems(inventory.getAllParts());
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText(null);
+                        alert.setContentText("A part was not found by that id or name.");
+                        alert.showAndWait();
                     }
                 }
             }
@@ -303,11 +313,21 @@ public class MainController {
                             productsTable.setItems(idProducts);
                         }
                         else {
-                            productsTable.setItems(null);
+                            productsTable.setItems(inventory.getAllProducts());
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error");
+                            alert.setHeaderText(null);
+                            alert.setContentText("A product was not found by that id or name.");
+                            alert.showAndWait();
                         }
                     }
                     else {
-                        productsTable.setItems(null);
+                        productsTable.setItems(inventory.getAllProducts());
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText(null);
+                        alert.setContentText("A product was not found by that id or name.");
+                        alert.showAndWait();
                     }
                 }
             }

@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-
+// javadocs folder is located at root of zip and root of the github repo.
 /**
  * @author Jaron Carter
  *

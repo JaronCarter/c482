@@ -278,11 +278,21 @@ public class ModifyProductController {
                             allPartsTable.setItems(idParts);
                         }
                         else {
-                            allPartsTable.setItems(null);
+                            allPartsTable.setItems(inventory.getAllParts());
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error");
+                            alert.setHeaderText(null);
+                            alert.setContentText("A part was not found by that id or name.");
+                            alert.showAndWait();
                         }
                     }
                     else {
-                        allPartsTable.setItems(null);
+                        allPartsTable.setItems(inventory.getAllParts());
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText(null);
+                        alert.setContentText("A part was not found by that id or name.");
+                        alert.showAndWait();
                     }
                 }
             }

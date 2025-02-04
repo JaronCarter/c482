@@ -1,11 +1,9 @@
+package ims.c482.models;
 /**
  * Supplied class Part.java
  *
  * @author Jaron Carter
  */
-
-package ims.c482.models;
-
 public abstract class Part {
     private int id;
     private String name;

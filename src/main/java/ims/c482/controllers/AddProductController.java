@@ -210,7 +210,7 @@ public class AddProductController {
         }
 
         if (errors.isEmpty()){
-            Product product = new Product(Integer.parseInt(idField.getText()),nameField.getText(),Double.parseDouble(priceField.getText()),Integer.parseInt(invField.getText()),Integer.parseInt(maxField.getText()),Integer.parseInt(minField.getText()));
+            Product product = new Product(Integer.parseInt(idField.getText()),nameField.getText(),Double.parseDouble(priceField.getText()),Integer.parseInt(invField.getText()),Integer.parseInt(minField.getText()),Integer.parseInt(maxField.getText()));
             for(Part part : associatedParts) {
                 product.addAssociatedPart(part);
             }
@@ -255,11 +255,21 @@ public class AddProductController {
                             allPartsTable.setItems(idParts);
                         }
                         else {
-                            allPartsTable.setItems(null);
+                            allPartsTable.setItems(inventory.getAllParts());
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error");
+                            alert.setHeaderText(null);
+                            alert.setContentText("A part was not found by that id or name.");
+                            alert.showAndWait();
                         }
                     }
                     else {
-                        allPartsTable.setItems(null);
+                        allPartsTable.setItems(inventory.getAllParts());
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText(null);
+                        alert.setContentText("A part was not found by that id or name.");
+                        alert.showAndWait();
                     }
                 }
             }
